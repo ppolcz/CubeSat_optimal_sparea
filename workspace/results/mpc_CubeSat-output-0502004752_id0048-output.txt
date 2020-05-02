@@ -1,0 +1,75 @@
+[  [INFO]  ] Output logging (with `diary'): /home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/results/mpc_CubeSat-output-0502004752_id0048-output.txt
+ 
+┌ <a href="matlab:edit('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat.m')">mpc_CubeSat</a>
+│   Run ID = 0048
+│    
+│   x0 = [     310.080
+│              300.417
+│              298.411
+│              255.959
+│              253.792
+│              253.792
+│              276.152 ]
+│   - <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat.m',40)">mpc_CubeSat:40</a>
+│    
+│   ┌ <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',70)">mpc_CubeSat_template:70</a> - [<strong>Setup1_290K_pm3K_low_power</strong>]
+│   │    
+│   │   Iteration for lambdaStar:
+│   │   lambdaStar = 0.5;
+│   │   Nr_Max_Iterations = 10;
+│   │    
+│   │   Parameters for the optimization:
+│   │   dQc_Max = 1.2;
+│   │   Tt_bounds = [287,293];
+│   │   Time_for_convergence = 1000;
+│   │   lambda_lims = [0,1];
+│   │   Periodicity_tolerance = 0.1;
+│   │   Prediction_Time = 10800;
+│   │   Samples_per_Period = 20;
+│   │    
+│   │   Parameters for the visualization:
+│   │   dQc_lim = [0,1.5];
+│   │   Tt_lim = [275,295];
+│   │   Ts_lim = [250,370];
+│   │    
+│   │   ┌ <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',89)">mpc_CubeSat_template:89</a> - [<strong>Iteration nr. 1, lambdaStar = 0.5</strong>]
+In standard cost function, zero weights are applied by default to one or more OVs because there are fewer MVs than OVs.
+Model.StateFcn is OK.
+Jacobian.StateFcn is OK.
+No output function specified. Assuming "y = x" in the prediction model.
+Optimization.CustomCostFcn is OK.
+Jacobian.CustomCostFcn is OK.
+Optimization.CustomEqConFcn is OK.
+Optimization.CustomIneqConFcn is OK.
+Analysis of user-provided model, cost, and constraint functions complete.
+Slack variable unused or zero-weighted in your custom cost function. All constraints will be hard.
+│   │   │   - fmincon nr. of evaluations: 544
+│   │   │   - Prediction model error: 9.473354e-09
+│   │   │   [   <strong>OK</strong>   ] The constraints are feasible.
+│   │   │   lambdaStar = 0.5;
+│   │   │   lambda = 0.5051;
+│   │   └ 12.2552 [sec]
+│   │    
+│   │   ┌ <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',89)">mpc_CubeSat_template:89</a> - [<strong>Iteration nr. 2, lambdaStar = 0.505</strong>]
+In standard cost function, zero weights are applied by default to one or more OVs because there are fewer MVs than OVs.
+Model.StateFcn is OK.
+Jacobian.StateFcn is OK.
+No output function specified. Assuming "y = x" in the prediction model.
+Optimization.CustomCostFcn is OK.
+Jacobian.CustomCostFcn is OK.
+Optimization.CustomEqConFcn is OK.
+Optimization.CustomIneqConFcn is OK.
+Analysis of user-provided model, cost, and constraint functions complete.
+Slack variable unused or zero-weighted in your custom cost function. All constraints will be hard.
+│   │   │   - fmincon nr. of evaluations: 447
+│   │   │   - Prediction model error: 5.684342e-14
+│   │   │   [   <strong>OK</strong>   ] The constraints are feasible.
+│   │   │   lambdaStar = 0.5051;
+│   │   │   lambda = 0.50516;
+│   │   └ 9.7239 [sec]
+│   │   - eval: save(mat_fname,'N', 'P', 'Prediction_Time', 'Simulation_Time', 'Time_for_convergence', 'Ts', 'Tt_Max', 'Tt_Min', 'dQc_Max', 'info', 'lambda', 'lambdaStar', 'lambda_lims', 'maxu', 'minu', 'opt', 'p', 'p1', 'params', 'Samples_per_Period', 't', 'u', 'x', 't_ode', 'tt', 'xx')
+if system_dependent('IsDebugMode')==1, dbcont; end
+<a href="matlab: opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/CubeSat_plot_v4.m',141,1)">141 </a>print(pdfname,'-dpdf')
+opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',89)
+dbquit
+mpc_CubeSat
