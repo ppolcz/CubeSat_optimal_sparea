@@ -7,7 +7,7 @@ function [ret] = pround(x, prec)
 %  Created on 2016.04.19. Tuesday, 14:51:09
 %
 
-error "Use round instead"
+error 'Use round instead'
 
 multiplier = 10^prec;
 

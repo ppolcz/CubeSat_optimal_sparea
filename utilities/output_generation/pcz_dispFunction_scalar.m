@@ -17,7 +17,7 @@ for i = 1:nargin
         seq = sprintf('[%s]', seq);
     end
 
-    pcz_dispFunction2('%s = %s;', inputname(i), seq);
+    pcz_dispFunction2('%s = %s', inputname(i), seq);
 end
 
 end

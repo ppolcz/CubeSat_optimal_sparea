@@ -7,7 +7,7 @@
 % 
 
 fig = figure(4);
-ts = t_ode(p1:end);
+ts = (p1-1)*Ts:Ts:10*Prediction_Time;
 
 Title_fontSize = 13.5;
 
@@ -15,7 +15,7 @@ Title_fontSize = 13.5;
 ax1 = subplot(611); hold off
 
 % Predicted tank temperature (discrete-time)
-plot(2*pi*t/P, x(:,end),'.-', 'LineWidth', 1.5, 'MarkerSize', 16), hold on
+plot(2*pi*t/P, x(:,end),'.-', 'LineWidth', 1.5, 'MarkerSize', 10), hold on
 
 % Red shaded region (allowed region)
 shade(2*pi*ts/P, Tt_Min + 0*ts, 2*pi*ts/P, Tt_Max + 0*ts, 'FillType', [1 2;2 1]);
@@ -25,8 +25,8 @@ plot([1 1]*2*pi*t(p1)/P, [Tt_Min Tt_Max], 'r', 'LineWidth',3);
 
 % Plot decorations
 axis([0 2*pi*Prediction_Time/P Tt_lim]), grid on
-title(sprintf('Predicted $T_{\\mathrm{T}}(t_i) \\in [%d,%d],\\, i = 1,\\dots,N,\\, \\mathrm{K}$, $\\lambda = %g$ ($\\lambda^* = %g$).', ...
-    [Tt_Min Tt_Max],round(lambda,3), round(lambdaStar,3)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
+title(sprintf('Predicted $T_{\\mathrm{T}}(t_i) \\in [%d,%d]\\, \\mathrm{K},\\, i = %d,\\dots,N=%d,\\, \\lambda = %g$ ($\\lambda^*_{(%d)} = %g$).', ...
+    [Tt_Min Tt_Max],p1-1,N,round(lambda,3), NrIt, round(lambdaStar,3)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
 ylabel('Tank temp. [K]','FontSize',13,'Interpreter','latex')
 CubeSat_plot_v3_helper_P2(280);
 Logger.latexify_axis(15)
@@ -51,7 +51,11 @@ Logger.latexify_axis(15)
 ax3 = subplot(613); hold off
 
 % Computed staircase input function
-plot(2*pi*t/P,u(:,1),'.-', 'MarkerSize', 16); hold on
+if u_MPC
+    plot(2*pi*t/P,u(:,1),'.-', 'MarkerSize', 10, 'LineWidth', 1); hold on
+else
+    pcz_stairs(2*pi*t/P,u(:,1), 'MarkerSize', 7, 'HLineWidth', 1); hold on
+end
 
 % Plot decorations
 axis tight, grid on
@@ -68,7 +72,7 @@ Logger.latexify_axis(15)
 ax4 = subplot(614); hold off
 
 % Simulated tank temperature (continuous-time)
-Pl_sim = plot(2*pi*tt/P, xx(:,end),'-', 'LineWidth', 1.5, 'MarkerSize', 16); hold on
+Pl_sim = plot(2*pi*tt/P, xx(:,end),'-', 'LineWidth', 1.5, 'MarkerSize', 10); hold on
 
 % Red shaded region (allowed region)
 shade(2*pi*ts/P, Tt_Min + 0*ts, 2*pi*ts/P, Tt_Max + 0*ts, 'FillType', [1 2;2 1]);
@@ -81,15 +85,14 @@ Pl_pred = plot(2*pi*t/P, x(:,end),'.-', 'LineWidth', 1, 'MarkerSize', 10, 'Color
 
 % Plot decorations
 axis([0 2*pi*Simulation_Time/P Tt_lim]), grid on
-title(sprintf('Simulated $T_{\\mathrm{T}}(t) \\in [%d,%d]\\, \\mathrm{K}$, $\\lambda = %g$ ($\\lambda^* = %g$).', ...
-    round([min(xx(:,end)) max(xx(:,end))]),...
-    round(lambda,3), round(lambdaStar,3)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
+title(sprintf('Simulated $T_{\\mathrm{T}}(t) \\in [%d,%d]\\, \\mathrm{K}$, $\\lambda = %g$.', ...
+    floor(min(xx(tt > Time_for_convergence,end))), ceil(max(xx(tt > Time_for_convergence,end))),...
+    round(lambda,3)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
 ylabel('Tank temp. [K]','FontSize',13,'Interpreter','latex')
 CubeSat_plot_v3_helper_P4(280);
 Logger.latexify_axis(15)
-T1 = text(pi/4,280,...
-    sprintf('(solver err: %s, MSE: %s [K], abs err: %s [K])', ...
-    num2str(NLMPC_Vars.prediction_model_error), num2str(MS_ERROR), num2str(ABS_ERROR)), ...
+T1 = text(Time_for_convergence/P*2*pi,Tt_lim(1)+(Tt_lim(2)-Tt_lim(1))/10,...
+    sprintf('(MSE: %s [K], abs err: %s [K])', num2str(MSE), num2str(AbsEr)), ...
     'interpreter', 'latex','FontSize',10,'VerticalAlignment','bottom',...
     'BackgroundColor','white');
 
@@ -119,7 +122,11 @@ ax6 = subplot(616); hold off
 CubeSat_plot_v3_helper_P4(Inf), hold on;
 
 % Computed staircase input function
-plot(2*pi*tt/P,u_fh(tt), 'MarkerSize', 0.1, 'Color', pcz_get_plot_colors([],1));
+if u_SIM
+    plot(2*pi*tt/P,u_fh(tt), 'MarkerSize', 0.1, 'Color', pcz_get_plot_colors([],1));
+else
+    pcz_stairs(2*pi*tt/P,u_fh(tt), 'MarkerSize', 0.1, 'Color', pcz_get_plot_colors([],1));
+end
 
 % Plot decorations
 axis tight, grid on

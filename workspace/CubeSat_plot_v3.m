@@ -51,7 +51,11 @@ Logger.latexify_axis(15)
 ax3 = subplot(313); hold off
 
 % Computed staircase input function
-plot(2*pi*t/P,u(:,1),'.-', 'MarkerSize', 16); hold on
+if u_MPC
+    plot(2*pi*t/P,u(:,1),'.-', 'MarkerSize', 16); hold on
+else
+    pcz_stairs(2*pi*t/P,u(:,1), 'MarkerSize', 16); hold on
+end
 
 % Plot decorations
 axis tight, grid on
@@ -66,7 +70,7 @@ Logger.latexify_axis(15)
 
 %% Export figure
 
-% %{
+%{
 
 % Position: [1 1 694 581]
     

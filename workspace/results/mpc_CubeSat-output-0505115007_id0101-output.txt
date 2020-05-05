@@ -1,0 +1,140 @@
+[  [INFO]  ] Output logging (with `diary'): /home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/results/mpc_CubeSat-output-0505115007_id0101-output.txt
+ 
+┌ <a href="matlab:edit('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat.m')">mpc_CubeSat</a>
+│   Run ID = 0101
+│    
+│   x0 = [     310.080
+│              300.417
+│              298.411
+│              255.959
+│              253.792
+│              253.792
+│              276.152 ]
+│   - <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat.m',69)">mpc_CubeSat:69</a>
+│    
+│   ┌ <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',77)">mpc_CubeSat_template:77</a> - [<strong>Setup6_297K_smallest_energy</strong>]
+│   │    
+│   │   Iteration for lambdaStar:
+│   │   lambdaStar = 0.5
+│   │   Nr_Max_Iterations = 10
+│   │    
+│   │   Parameters for the optimization:
+│   │   dQc_Max = 1.545
+│   │   Tt_bounds = [297,330]
+│   │   Time_for_convergence = 1000
+│   │   lambda_lims = [0,1]
+│   │   Prediction_Time = 10800
+│   │   Samples_per_Period = 20
+│   │    
+│   │   Parameters for the visualization:
+│   │   dQc_lim = [0,2]
+│   │   Tt_lim = [270,330]
+│   │   Ts_lim = [250,400]
+│   │    
+│   │   ┌ <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',99)">mpc_CubeSat_template:99</a> - [<strong>Iteration nr. 1, lambdaStar = 0.5</strong>]
+In standard cost function, zero weights are applied by default to one or more OVs because there are fewer MVs than OVs.
+Model.StateFcn is OK.
+Jacobian.StateFcn is OK.
+No output function specified. Assuming "y = x" in the prediction model.
+Optimization.CustomCostFcn is OK.
+Jacobian.CustomCostFcn is OK.
+Optimization.CustomEqConFcn is OK.
+Optimization.CustomIneqConFcn is OK.
+Analysis of user-provided model, cost, and constraint functions complete.
+Slack variable unused or zero-weighted in your custom cost function. All constraints will be hard.
+│   │   │   - Nr. of fmincon evaluations: 12
+│   │   │   - Prediction model error: 1.705303e-13
+│   │   │   [   <strong>OK</strong>   ] The constraints are feasible.
+│   │   │   lambdaStar = 0.5
+│   │   │   lambda = 1
+│   │   └ 1.6236 [sec]
+│   │    
+│   │   ┌ <a href="matlab:opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',99)">mpc_CubeSat_template:99</a> - [<strong>Iteration nr. 2, lambdaStar = 1</strong>]
+In standard cost function, zero weights are applied by default to one or more OVs because there are fewer MVs than OVs.
+Model.StateFcn is OK.
+Jacobian.StateFcn is OK.
+No output function specified. Assuming "y = x" in the prediction model.
+Optimization.CustomCostFcn is OK.
+Jacobian.CustomCostFcn is OK.
+Optimization.CustomEqConFcn is OK.
+Optimization.CustomIneqConFcn is OK.
+Analysis of user-provided model, cost, and constraint functions complete.
+Slack variable unused or zero-weighted in your custom cost function. All constraints will be hard.
+│   │   │   - Nr. of fmincon evaluations: 12
+│   │   │   - Prediction model error: 9.663381e-13
+│   │   │   [   <strong>OK</strong>   ] The constraints are feasible.
+│   │   │   lambdaStar = 1
+│   │   │   lambda = 1
+│   │   └ 0.57617 [sec]
+│   │   - Results stored in `/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/results/mpc_CubeSat-output-0505115007_id0101-results.xlsx', Sheet 1
+│   │         DateTime: '2020.05.05. Tuesday, 11:50:07'
+│   │            RunID: 101
+│   │        SetupName: 'Setup6_297K_smallest_energy'
+│   │           Tt_Min: 297
+│   │           Tt_Max: 330
+│   │          dQc_Max: 1.5450
+│   │                N: 40
+│   │            u_MPC: 0
+│   │          rho_MPC: 1
+│   │             NrIt: 2
+│   │          Lambdas: '(0.5->1),(1->1)'
+│   │             Last: '| Last:'
+│   │           Lambda: 1
+│   │       NrSolverIt: 12
+│   │       SolverTime: 0.5800
+│   │         ExitFlag: 1
+│   │         SolverEr: 9.6630e-13
+│   │            u_SIM: 1
+│   │              Sim: 'ode45'
+│   │              MSE: 1.8160
+│   │            AbsEr: 3.4970
+│   │             L2Er: 138.8000
+│   │   
+│   │   
+│   │   - eval: save(mat_fname,'N', 'P', 'Simulation_Time', 'Time_for_convergence', 'Ts', 'Samples_per_Period', 'Tt_Max', 'Tt_Min', 'dQc_Max', 'info', 'lambda', 'lambdaStar', 'maxu', 'minu', 'opt', 'p', 'p1', 'params', 'MPC_desing', 'Simulation')
+{The end operator must be used within an array index expression.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('CubeSat_plot_v4', '/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/CubeSat_plot_v4.m', 10)" style="font-weight:bold">CubeSat_plot_v4</a> (<a href="matlab: opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/CubeSat_plot_v4.m',10,0)">line 10</a>)
+ts = t_ode(p1:end);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mpc_CubeSat_template', '/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m', 243)" style="font-weight:bold">mpc_CubeSat_template</a> (<a href="matlab: opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat_template.m',243,0)">line 243</a>)
+    CubeSat_plot_v4
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mpc_CubeSat', '/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat.m', 193)" style="font-weight:bold">mpc_CubeSat</a> (<a href="matlab: opentoline('/home/ppolcz/_/8_published/98_CubeSat_optimal_sparea/workspace/mpc_CubeSat.m',193,0)">line 193</a>)
+    mpc_CubeSat_template;
+} 
+Ts
+
+Ts =
+
+   270
+
+ts = p1*Ts:Ts:Prediction_Time
+
+ts =
+
+  Columns 1 through 7
+
+        1080        1350        1620        1890        2160        2430        2700
+
+  Columns 8 through 14
+
+        2970        3240        3510        3780        4050        4320        4590
+
+  Columns 15 through 21
+
+        4860        5130        5400        5670        5940        6210        6480
+
+  Columns 22 through 28
+
+        6750        7020        7290        7560        7830        8100        8370
+
+  Columns 29 through 35
+
+        8640        8910        9180        9450        9720        9990       10260
+
+  Columns 36 through 37
+
+       10530       10800
+
+CubeSat_plot_v4

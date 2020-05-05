@@ -32,7 +32,7 @@ methods (Access = public)
         p.latex_fname = [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID '-latex.tex' ];
         p.results_fname = [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID '-results.xlsx' ];
         p.fig_fname = @(ext,tag) [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID tag ext ];
-        p.mat_fname = [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID '-results.mat' ];
+        p.mat_fname =  @(tag) [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID tag '.mat' ];
         
         setenv('DIARY_FNAME',p.diary_fname);
         setenv('LATEX_FNAME',p.latex_fname);
@@ -59,6 +59,68 @@ methods (Access = public)
         end
     end
 
+    function store_results_init(obj,sheetnr,varargin)
+        
+        Cols = [ {'DateTime','RunID'} varargin ];
+        
+        for i = 3:nargin
+            if ~ischar(Cols{i})
+                assert(~isempty(inputname(i)));
+                Cols{i} = inputname(i);
+            end
+        end
+        
+        if ~exist(obj.results_fname, 'file')
+            Results = cell2table(cell(0,numel(Cols)), 'VariableNames', Cols);
+            writetable(Results,obj.results_fname,'Sheet',sheetnr);
+        end
+            
+    end
+    
+    function store_results(obj,sheetnr,varargin)
+         
+        s.DateTime = obj.date;
+        s.RunID = str2double(getenv('RUN_ID'));
+        for i = 3:nargin
+            if isempty(inputname(i))
+                if ischar(varargin{i-2})
+                    s.(varargin{i-2}) = [ '| ' strtrim(strrep(varargin{i-2},'_',' ')) ':' ];
+                else
+                    warning('Input %d does not have a name', i);
+                end, continue
+            end
+            s.(inputname(i)) = varargin{i-2};
+        end
+        
+        if exist(obj.results_fname, 'file')
+            Results = readtable(obj.results_fname,'Sheet',1);
+        end
+
+        if ~exist('Results', 'var')
+            Cols = fieldnames(s)';
+            Results = cell2table(cell(0,numel(Cols)), 'VariableNames', Cols);
+        else
+            
+            % Kiegeszitem az ujonan beszurando sort, ha nem szerepel benne
+            % minden oszlop ami mar eddig benne van a tablazatban.
+            not_in_s = setdiff(Results.Properties.VariableNames,fieldnames(s));
+            for i = 1:numel(not_in_s)
+                if isnumeric(Results.(not_in_s{i}))
+                    Results.(not_in_s{i}) = 0;
+                else
+                    Results.(not_in_s{i}) = ' ';
+                end
+            end
+        end    
+        
+        Results = [ Results ; struct2table(s) ];
+
+        writetable(Results,obj.results_fname,'Sheet',sheetnr);
+
+        pcz_dispFunction('Results stored in `%s'', Sheet %d', obj.results_fname, sheetnr);
+        pcz_dispFunction2(evalc('disp(s)'))
+    end
+    
 end
 
 
