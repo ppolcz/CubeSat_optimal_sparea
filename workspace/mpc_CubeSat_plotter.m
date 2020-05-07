@@ -21,9 +21,6 @@ for i = 1:numel(fileList)
     
     load(matname);
     
-    % Dependent variables, which were not exported:
-    Prediction_Time = Ts * N;
-    
     % MPC results:
     lambda = MPC_desing.lambda;
     t = MPC_desing.t;
@@ -35,6 +32,35 @@ for i = 1:numel(fileList)
     tt = Simulation.t;
     uu = Simulation.u;
     xx = Simulation.x;
+    
+    % Dependent variables, which were not exported:
+    Prediction_Time = Ts * N;    
+    Sim_Max = max(xx(tt >= t(p1),7));
+    Sim_Min = min(xx(tt >= t(p1),7));
+    OverShoot = +Sim_Max - Tt_Max;
+    UnderShoot = -Sim_Min + Tt_Min;
+    
+    ou = {};
+    if UnderShoot > 0
+        ou = [ou {sprintf('undershoot:\\,$%g$\\,K', round(UnderShoot,2))}];
+    end
+    if OverShoot > 0
+        ou = [ou {sprintf('overshoot:\\,$%g$\\,K', round(OverShoot,2))}];
+    end
+    ou = strjoin(ou,', ');
+    
+    
+    % Shoot = [
+    %     Sim_Max OverShoot
+    %     Sim_Min UnderShoot
+    %     ];
+    
+    fprintf('The simulated tank temperature satisfies $\\TT(t) \\in [%g,%g]\\,\\mathrm{K}$ for all $t \\in [%d \\mathrm{s},4P]$, ',...
+        round(Sim_Min,2),round(Sim_Max,2),...
+        t(p1))
+    fprintf('i.e., the overshoot and undershoot are $%g\\,\\mathrm{K}$ and $%g\\,\\mathrm{K}$, respectively.\n',...
+        round(OverShoot,2),round(UnderShoot,2))
+    
     
     CubeSat_plot_v5
     

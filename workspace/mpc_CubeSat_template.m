@@ -144,7 +144,8 @@ while 1, NrIt = NrIt + 1; if NrIt > Nr_Max_Iterations, break; end
     p1 = ceil(Time_for_convergence / Ts);
     nlobj.Optimization.CustomIneqConFcn = @(x,u,e,data,params) [ 
         -x(p1:p+1,7)+Tt_Min 
-        x(p1:p+1,7)-Tt_Max 
+        x(p1:p+1,7)-Tt_Max
+        % x(1:(p+1)*6)-370 % hard-coded
         % x(p-resolution+1,:)' - x(p+1,:)' - Periodicity_tolerance
         % x(p+1,:)' - x(p-resolution+1,:)' - Periodicity_tolerance
         ];
