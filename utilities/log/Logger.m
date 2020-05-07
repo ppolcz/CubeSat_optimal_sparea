@@ -8,7 +8,9 @@ classdef Logger
 
 %%
 properties (GetAccess = public, SetAccess = private)
-    diary_fname;        
+    dirname;
+    file;
+    diary_fname;
     latex_fname;
     results_fname;
     fig_fname;
@@ -23,27 +25,29 @@ methods (Access = public)
 
         RUN_ID = getenv('RUN_ID');
 
-        p.stamp = datestr(now, 'mmddHHMMSS');
+        p.stamp = datestr(now, 'yyyy-mm-dd_HH:MM');
         p.date = datestr(now, 'yyyy.mm.dd. dddd, HH:MM:SS');
-        
+
         [~,basename,~] = fileparts(fname);
-        
-        p.diary_fname = [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID '-output.txt' ];
-        p.latex_fname = [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID '-latex.tex' ];
-        p.results_fname = [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID '-results.xlsx' ];
-        p.fig_fname = @(ext,tag) [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID tag ext ];
-        p.mat_fname =  @(tag) [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID tag '.mat' ];
-        
+
+        p.dirname = [ cd filesep 'results' filesep basename '-' p.stamp '_id' RUN_ID ];
+        p.file = @(fname) [p.dirname filesep fname];
+
+        p.diary_fname = p.file('output.txt');
+        p.latex_fname = p.file('latex.tex');
+        p.results_fname = p.file('results.xlsx');
+        p.fig_fname = @(relname) p.file(relname);
+        p.mat_fname =  @(relname) p.file([relname '.mat']);
+
+        setenv('RESULTS_DIRNAME',p.dirname);
         setenv('DIARY_FNAME',p.diary_fname);
         setenv('LATEX_FNAME',p.latex_fname);
         setenv('RESULTS_FNAME',p.results_fname);
-        
-        [dirname,~,~] = fileparts(p.diary_fname);
-        
-        if ~exist(dirname,'dir')
-            mkdir(dirname)
+
+        if ~exist(p.dirname,'dir')
+            mkdir(p.dirname)
         end
-        
+
         % Start diary (output logging)
         diary(p.diary_fname);
         pcz_info('Output logging (with `diary''): %s', p.diary_fname);
@@ -60,25 +64,25 @@ methods (Access = public)
     end
 
     function store_results_init(obj,sheetnr,varargin)
-        
+
         Cols = [ {'DateTime','RunID'} varargin ];
-        
+
         for i = 3:nargin
             if ~ischar(Cols{i})
                 assert(~isempty(inputname(i)));
                 Cols{i} = inputname(i);
             end
         end
-        
+
         if ~exist(obj.results_fname, 'file')
             Results = cell2table(cell(0,numel(Cols)), 'VariableNames', Cols);
             writetable(Results,obj.results_fname,'Sheet',sheetnr);
         end
-            
+
     end
-    
+
     function store_results(obj,sheetnr,varargin)
-         
+
         s.DateTime = obj.date;
         s.RunID = str2double(getenv('RUN_ID'));
         for i = 3:nargin
@@ -91,7 +95,7 @@ methods (Access = public)
             end
             s.(inputname(i)) = varargin{i-2};
         end
-        
+
         if exist(obj.results_fname, 'file')
             Results = readtable(obj.results_fname,'Sheet',1);
         end
@@ -100,7 +104,7 @@ methods (Access = public)
             Cols = fieldnames(s)';
             Results = cell2table(cell(0,numel(Cols)), 'VariableNames', Cols);
         else
-            
+
             % Kiegeszitem az ujonan beszurando sort, ha nem szerepel benne
             % minden oszlop ami mar eddig benne van a tablazatban.
             not_in_s = setdiff(Results.Properties.VariableNames,fieldnames(s));
@@ -111,8 +115,8 @@ methods (Access = public)
                     Results.(not_in_s{i}) = ' ';
                 end
             end
-        end    
-        
+        end
+
         Results = [ Results ; struct2table(s) ];
 
         writetable(Results,obj.results_fname,'Sheet',sheetnr);
@@ -120,7 +124,7 @@ methods (Access = public)
         pcz_dispFunction('Results stored in `%s'', Sheet %d', obj.results_fname, sheetnr);
         pcz_dispFunction2(evalc('disp(s)'))
     end
-    
+
 end
 
 
@@ -208,7 +212,7 @@ methods(Static)
         if nargin > 4
             ret{3} = zlabel(ax,zl,'interpreter','latex','FontSize', fontsize,'FontName','TeX Gyre Schola Math','Color',[0 0 0]);
         end
-        
+
         if nargout > 0
             ret_ = ret;
         end

@@ -30,12 +30,12 @@ labels = {
     };
 
 if ~isinf(height)
-    text(pi/4,height,'$P_1$','FontSize',15,'Interpreter','latex','horizontalalignment','center')
-    text(pi,height,'$P_2$','FontSize',15,'Interpreter','latex','horizontalalignment','center')
-    text(7*pi/4,height,'$P_3$','FontSize',15,'Interpreter','latex','horizontalalignment','center')
-    text(9*pi/4,height,'$P_1$','FontSize',15,'Interpreter','latex','horizontalalignment','center')
-    text(3*pi,height,'$P_2$','FontSize',15,'Interpreter','latex','horizontalalignment','center')
-    text(15*pi/4,height,'$P_3$','FontSize',15,'Interpreter','latex','horizontalalignment','center')
+    text(pi/4,height,'$P_1$','FontSize',15,'Interpreter','latex','horizontalalignment','center','VerticalAlignment','bottom')
+    text(pi,height,'$P_2$','FontSize',15,'Interpreter','latex','horizontalalignment','center','VerticalAlignment','bottom')
+    text(7*pi/4,height,'$P_3$','FontSize',15,'Interpreter','latex','horizontalalignment','center','VerticalAlignment','bottom')
+    text(9*pi/4,height,'$P_1$','FontSize',15,'Interpreter','latex','horizontalalignment','center','VerticalAlignment','bottom')
+    text(3*pi,height,'$P_2$','FontSize',15,'Interpreter','latex','horizontalalignment','center','VerticalAlignment','bottom')
+    text(15*pi/4,height,'$P_3$','FontSize',15,'Interpreter','latex','horizontalalignment','center','VerticalAlignment','bottom')
 end
     
 plot([0 0 1 1 3 3 4 4 5 5 7 7 8 8 9 9]*pi/2,repmat([-2 2 2 -2],[1 4])*2000,'--','Color',pcz_get_plot_colors([],2),'LineWidth',2)

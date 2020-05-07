@@ -7,9 +7,9 @@
 % 
 
 fig = figure(4);
-ts = (p1-1)*Ts:Ts:10*Prediction_Time;
-
 Title_fontSize = 13.5;
+
+ts = (p1-1)*Ts:Ts:10*Prediction_Time;
 
 %% First subplot
 ax1 = subplot(611); hold off
@@ -26,7 +26,7 @@ plot([1 1]*2*pi*t(p1)/P, [Tt_Min Tt_Max], 'r', 'LineWidth',3);
 % Plot decorations
 axis([0 2*pi*Prediction_Time/P Tt_lim]), grid on
 title(sprintf('Predicted $T_{\\mathrm{T}}(t_i) \\in [%d,%d]\\, \\mathrm{K},\\, i = %d,\\dots,N=%d,\\, \\lambda = %g$ ($\\lambda^*_{(%d)} = %g$).', ...
-    [Tt_Min Tt_Max],p1-1,N,round(lambda,3), NrIt, round(lambdaStar,3)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
+    [Tt_Min Tt_Max],p1-1,N,round(lambda,4), NrIt-1, round(lambdaStar,4)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
 ylabel('Tank temp. [K]','FontSize',13,'Interpreter','latex')
 CubeSat_plot_v3_helper_P2(280);
 Logger.latexify_axis(15)
@@ -62,11 +62,10 @@ axis tight, grid on
 ax3.YLim = dQc_lim;
 ax3.XLim = [0 2*pi*Prediction_Time/P];
 ylabel('Control input [W]','FontSize',13,'Interpreter','latex')
-title(sprintf('Conputed discrete-time input heat flux $\\dot Q_{\\mathrm{c}}(t_i) \\in [%g,%g]\\, \\mathrm{W}$.', ...
+title(sprintf('Computed discrete-time input heat flux $\\dot Q_{\\mathrm{c}}(t_i) \\in [%g,%g]\\, \\mathrm{W}$.', ...
     minu, maxu), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
 CubeSat_plot_v3_helper_P2(Inf);
 Logger.latexify_axis(15)
-
 
 %% Fourth subplot
 ax4 = subplot(614); hold off
@@ -87,7 +86,7 @@ Pl_pred = plot(2*pi*t/P, x(:,end),'.-', 'LineWidth', 1, 'MarkerSize', 10, 'Color
 axis([0 2*pi*Simulation_Time/P Tt_lim]), grid on
 title(sprintf('Simulated $T_{\\mathrm{T}}(t) \\in [%d,%d]\\, \\mathrm{K}$, $\\lambda = %g$.', ...
     floor(min(xx(tt > Time_for_convergence,end))), ceil(max(xx(tt > Time_for_convergence,end))),...
-    round(lambda,3)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
+    round(lambda,4)), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
 ylabel('Tank temp. [K]','FontSize',13,'Interpreter','latex')
 CubeSat_plot_v3_helper_P4(280);
 Logger.latexify_axis(15)
@@ -123,9 +122,9 @@ CubeSat_plot_v3_helper_P4(Inf), hold on;
 
 % Computed staircase input function
 if u_SIM
-    plot(2*pi*tt/P,u_fh(tt), 'MarkerSize', 0.1, 'Color', pcz_get_plot_colors([],1));
+    plot(2*pi*tt/P,uu,'-', 'MarkerSize', 1, 'LineWidth', 1.5, 'Color', pcz_get_plot_colors([],1));
 else
-    pcz_stairs(2*pi*tt/P,u_fh(tt), 'MarkerSize', 0.1, 'Color', pcz_get_plot_colors([],1));
+    pcz_stairs(2*pi*tt/P,uu, 'MarkerSize', 2, 'Color', pcz_get_plot_colors([],1));
 end
 
 % Plot decorations
@@ -134,9 +133,17 @@ ax6.YLim = dQc_lim;
 ax6.XLim = [0 2*pi*Simulation_Time/P];
 xlabel('Time $t$ [sec]','FontSize',13,'Interpreter','latex')
 ylabel('Control input [W]','FontSize',13,'Interpreter','latex')
-title(sprintf('Continuous-time input heat flux $\\dot Q_{\\mathrm{c}}(t) \\in [%g,%g]\\, \\mathrm{W}$.', ...
+title(sprintf('Interpolated continuous-time input heat flux $\\dot Q_{\\mathrm{c}}(t) \\in [%g,%g]\\, \\mathrm{W}$.', ...
     minu, maxu), 'Interpreter', 'LaTeX', 'FontSize', Title_fontSize)
 Logger.latexify_axis(15)
+
+%% Annotations
+
+delete(findall(fig,'type','annotation'))
+for i = 1:6
+    An(i) = annotation(fig,'textbox',[0.92 1.02-i*0.142 0 0],'String',['(' char('A'+i-1) ')'],'EdgeColor','black',Logger.font_axis14{:});
+end
+
 
 %% Export figure
 

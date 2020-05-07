@@ -194,7 +194,7 @@ end
 
 for u_SIM = mconfig{3}
 
-    modelname = sprintf('-%d%d%d-%s',u_MPC,rho_MPC,u_SIM,SetupName);
+    modelname = sprintf('Hold%d%d%d-%s',u_MPC,rho_MPC,u_SIM,SetupName);
 
     % Simulate the system with the computed input
 
@@ -204,6 +204,7 @@ for u_SIM = mconfig{3}
     odeopts = odeset;
     odeopts.MaxStep = 1;
     [tt,xx] = ode45(f_ode,[0 Simulation_Time],x0,odeopts);
+    uu = u_fh(tt);
     Sim = 'ode45';
 
     
@@ -229,18 +230,21 @@ for u_SIM = mconfig{3}
     % Save results (.mat)
 
     MPC_desing = struct('t',t(:),'u',u(:,1),'x',x,'lambda',lambda);
-    Simulation = struct('t',tt,'u',u_fh(tt),'x',xx,'lambda',lambda);
+    Simulation = struct('t',tt,'u',uu,'x',xx,'lambda',lambda);
     mat_fname = logger.mat_fname(modelname);
-    pcz_save(mat_fname, N, P, Simulation_Time, Time_for_convergence, Ts, ...
-        Samples_per_Period, Tt_Max, Tt_Min, dQc_Max, info, lambda, ...
+    pcz_save(mat_fname, N, P, Simulation_Time, Time_for_convergence, p1, Ts, ...
+        Samples_per_Period, Tt_Min, Tt_Max, dQc_Max, info, lambda, ...
         lambdaStar, maxu, minu, opt, p, p1, params,...
-        MPC_desing, Simulation);
+        dQc_lim, Tt_lim, Ts_lim,...
+        MPC_desing, Simulation,...
+        SetupName,u_MPC,rho_MPC,NrIt,NrSolverIt,SolverTime,ExitFlag,SolverEr,u_SIM,Sim,MSE,AbsEr,L2Er);
 
     
     % Visualize
 
     % CubeSat_plot_v3
-    CubeSat_plot_v4
+    % CubeSat_plot_v4
+    % CubeSat_plot_v5
 
 end
 %%
