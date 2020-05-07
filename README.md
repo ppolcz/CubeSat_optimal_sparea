@@ -1,1 +1,1 @@
-# Optimal solar panel area computation for the CubeSat using an offline MPC design
+# Optimal solar panel area computation for a CubeSat system using an offline MPC design
