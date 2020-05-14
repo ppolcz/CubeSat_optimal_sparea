@@ -9,7 +9,8 @@ function [ret, A_runID_dates] = pcz_runID(msg1, msg2, varargin)
 
 A_MAT_PATH = getenv('A_MAT_PATH');
 
-try  
+try
+    % Load Registry [A]
     load(A_MAT_PATH);    
 catch
     %%

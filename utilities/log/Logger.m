@@ -4,6 +4,7 @@ classdef Logger
 %
 %  Created on 2018.02.11. Sunday, 11:17:40
 %  Major review on 2020. March 17. (2019b) -- simplified
+%  Major review on 2020. May 2. (2019b)
 %
 
 %%
