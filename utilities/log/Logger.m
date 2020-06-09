@@ -18,6 +18,7 @@ properties (GetAccess = public, SetAccess = private)
     mat_fname;
     stamp;
     date;
+    runID;
 end
 
 methods (Access = public)
@@ -25,6 +26,7 @@ methods (Access = public)
     function p = Logger(fname, varargin)
 
         RUN_ID = getenv('RUN_ID');
+        p.runID = str2double(RUN_ID);
 
         p.stamp = datestr(now, 'yyyy-mm-dd_HH:MM');
         p.date = datestr(now, 'yyyy.mm.dd. dddd, HH:MM:SS');
