@@ -5,6 +5,7 @@
 %  Author: Peter Polcz (ppolcz@gmail.com) 
 % 
 %  Created on 2020. May 01. (2019b)
+%  Minor review on 2020. December 11. (2020b)
 % 
 % This template script is NOT a function, therefore, it uses and writes the
 % global workspace. Some variables are assumed to be initialized outside of
@@ -23,11 +24,32 @@
 
 global NLMPC_Vars
 
+% 2020.12.11. (december 11, péntek), 08:26
+NLMPC_Vars.prediction_model_error = Inf;
+
 %%
+
+STANDALONE_SCRIPT = 0;
 
 % Default parameter setup if `mpc_CubeSat' is not executed
 if ~exist('dQc_Max','var')
     
+    STANDALONE_SCRIPT = 1;
+    
+    % 2020.12.11. (december 11, péntek), 08:31
+    setenv('RUN_ID', num2str(pcz_runID(mfilename)))
+    logger = Logger(['results/' mfilename '-output.txt']);
+
+    % 2020.12.10. (december 10, csütörtök), 16:01
+    % This is the best combination: In the MPC the input is considered a
+    % staircase function (0) the measured disturbance is assumed to be
+    % piecewise affine (1). In the simulations we consider a first-order
+    % hold on the computed discrete input values (1), namely, we assume
+    % that the input is piecewise affine.
+    mconfig = {0 1 1};
+    u_MPC = mconfig{1};
+    rho_MPC = mconfig{2};
+
     % Default initial value for lambdaStar:
     lambdaInit = 0.5;
     lambdaOpt = 0.5;
@@ -242,10 +264,11 @@ for u_SIM = mconfig{3}
 
     
     % Visualize
-
-    % CubeSat_plot_v3
-    % CubeSat_plot_v4
-    % CubeSat_plot_v5
+    if STANDALONE_SCRIPT
+        CubeSat_plot_v3
+        % CubeSat_plot_v4
+        % CubeSat_plot_v5
+    end
 
 end
 %%
